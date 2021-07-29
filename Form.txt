@@ -191,3 +191,47 @@ function clearFunc() {
     document.getElementById("t5").value = "";
 }
 
+
+
+
+[ -- session.php -- ]
+
+1.--------------------------------------
+<?php  include "conn.php"; 
+session_start();
+?>
+
+2.--------------------------------------------
+                 <?php 
+                        if(isset($_REQUEST["btnlogin"]))
+                        {
+                              $user=$_REQUEST["txtusername"];
+                              $pass=$_REQUEST["txtpassword"];
+
+                              $res=mysqli_query($conn,"select * from tbl_admin where username='$user' and password='$pass' and isblock='No'");
+
+                              if(mysqli_num_rows($res)>0)
+                              {
+                                     while($row=mysqli_fetch_array($res))  //Fetch admin record from database
+                                        {
+                                             $name=$row["name"];
+                                             $id=$row["admin_id"];
+                                             $username=$row["username"];
+                                             $password=$row["password"];
+                                             $type=$row["usertype"];
+                                        }
+                                 
+
+                                        $_SESSION["adminname"]=$name;   //Assign value to session
+                                        $_SESSION["adminid"]=$id;
+
+                                        
+
+
+                              } else {
+                                 echo "Invalid username or password";
+                              }
+                        }
+
+                    ?>
+                   
